@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -69,7 +69,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public String deleteById(Integer empId) {
         if(employeeRepository.existsById(empId)){
             employeeRepository.deleteById(empId);
-            return "SUCESS";
+            return "SUCCESS";
         }
         return "FAILED";
 
