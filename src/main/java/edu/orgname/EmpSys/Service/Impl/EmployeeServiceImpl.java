@@ -5,6 +5,7 @@ import edu.orgname.EmpSys.Entity.EmployeeEntity;
 import edu.orgname.EmpSys.Model.Employee;
 import edu.orgname.EmpSys.Repository.EmployeeRepository;
 import edu.orgname.EmpSys.Service.EmployeeService;
+import edu.orgname.EmpSys.exception.EmployeeAlreadyExistException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee save(Employee employee) {
+        Optional<EmployeeEntity> byEmail = employeeRepository.findByEmail(employee.getEmail());
+
+        if(byEmail.isPresent()){
+            throw new EmployeeAlreadyExistException(
+                    "Employee Already Exist with the email"+employee.getEmail()){
+
+            };
+        }
+
         EmployeeEntity employeeEntity = new EmployeeEntity();
         employeeEntity.setEmpName(employee.getEmpName());
         employeeEntity.setAge(employee.getAge());
@@ -47,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee update(Employee employee) {
+    public Employee update(Integer empId , Employee employee) {
         return mapper.convertValue(
                 employeeRepository.save(mapper.convertValue
                         (employee, EmployeeEntity.class)),
@@ -69,7 +79,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public String deleteById(Integer empId) {
         if(employeeRepository.existsById(empId)){
             employeeRepository.deleteById(empId);
-            return "SUCESS";
+            return "SUCCESS";
         }
         return "FAILED";
 

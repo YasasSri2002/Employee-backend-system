@@ -11,7 +11,7 @@ public interface EmployeeService {
     Employee save(Employee employee);
 
 
-    Employee update(Employee employee);
+    Employee update(Integer empId, Employee employee);
 
     List<Employee> getAllByName(String empName);
 

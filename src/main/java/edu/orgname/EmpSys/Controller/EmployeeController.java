@@ -14,6 +14,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/employee")
+@CrossOrigin
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -21,7 +22,7 @@ public class EmployeeController {
 
     @PostMapping()
     public Employee persist(@RequestBody Employee employee){
-         return employeeService.save(employee);
+        return employeeService.save(employee);
     }
 
     @GetMapping("/all")
@@ -29,9 +30,10 @@ public class EmployeeController {
         return employeeService.retrieveAll();
     }
 
-    @PutMapping("/update")
-    public Employee update(@RequestBody Employee employee){
-        return employeeService.update(employee);
+    @PutMapping("/update/{empId}")
+    public Employee update(@PathVariable Integer empId , @RequestBody Employee employee){
+
+        return employeeService.update(empId, employee);
     }
 
     @GetMapping("/by-name/{empName}")
